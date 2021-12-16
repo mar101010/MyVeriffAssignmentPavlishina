@@ -16,7 +16,7 @@ public class ConfigurationPage {
     private SelenideElement descriptionText = $( "section.no-new-line");
     private SelenideElement breakWordText = $( "section.break-word.m-t");
     private SelenideElement submitButton = $(".UnstyledButton-module_base__1a3SB");
-    private SelenideElement nameTextField = $(".TextField-module_input__3FXIK");
+    private SelenideElement nameTextField = $("input.TextField-module_input__3FXIK");
     private SelenideElement languageField = $("button.Select-module_select__1qWxd", 0);//---
     private SelenideElement languageDropdown = $("div.Select-module_dropdown__20VO4", 0);//---
     private SelenideElement countryField = $(By.name("documentCountry"));

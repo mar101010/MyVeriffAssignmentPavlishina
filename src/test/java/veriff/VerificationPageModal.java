@@ -7,11 +7,10 @@ import static com.codeborne.selenide.Selenide.switchTo;
 
 public class VerificationPageModal extends VerificationPage{
 
+    //elements
     public SelenideElement frame = $("iframe");
     private SelenideElement closeIconModal = $("button.l1nc0txa");
     private SelenideElement exitBtnModal = $("div.bxo4sd4 button.b1c7psjy");
-
-    public  SelenideElement getFrame(){ return frame; }
 
     public void switchToVerificationPageIframe(){
         switchTo().frame(frame);

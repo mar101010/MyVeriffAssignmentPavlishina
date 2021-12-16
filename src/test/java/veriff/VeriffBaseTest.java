@@ -21,12 +21,12 @@ public class VeriffBaseTest {
         //System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriverLinux");
         //System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriverMac");
         System.setProperty("selenide.browser", "Chrome");
-        Configuration.baseUrl = "https://demo.veriff.me/";
+        Configuration.baseUrl = "https://demo.veriff.me";
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
         Configuration.reportsFolder = System.getProperty("user.dir") + "/build/reports";
     }
 
-    public void openBrowser() {
+    public void openBaseUrl() {
         Selenide.open("/");
     }
 

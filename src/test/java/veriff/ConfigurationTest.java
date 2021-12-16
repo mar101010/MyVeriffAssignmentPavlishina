@@ -7,27 +7,16 @@ import org.testng.annotations.*;
 public class ConfigurationTest extends VeriffBaseTest{
 
     @BeforeClass
-    public void openPage() {
-        openBrowser();
-    }
+    public void openPage() { openBaseUrl(); }
 
     @AfterClass
     public void tearDown() {
         closeBrowser();
     }
 
-    @AfterMethod
-    public void refresh() { refreshBrowser(); }
-
-    @AfterGroups ("redirectLaunch") //log out after logged in users test
-    public void  goBackToBaseUrl() {
-        //
-    }
-
-
     //user sees all elements on Configuration page
     @Test
-    public void userSeesTextElements() {
+    public void UserCanSeeTextElements() {
 
         configPage.getSubmitButton().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(configPage.getTitleHeader().isDisplayed());
@@ -37,25 +26,20 @@ public class ConfigurationTest extends VeriffBaseTest{
         softAssert.assertAll();
     }
 
-   /* @Test (groups = { "redirectLaunch" })
-    public void UserCannotSubmitEmptyData(){
-       configPage.clearNameField();
-       configPage.setLaunchTypeInContext();
-       configPage.submit();
-       Selenide.sleep(5000);
-       //iframe switch
-       softAssert.assertTrue(configPage.getTitleHeader().isDisplayed());
-       refreshBrowser();
-       configPage.clearNameField();
-       configPage.setLaunchTypeRedirect();
-       configPage.submit();
-       Selenide.sleep(5000);
-       softAssert.assertTrue(configPage.getTitleHeader().isDisplayed());
-       softAssert.assertAll();
-    } */
+    @Test
+    public void UserCanSubmitEmptyDataInContext(){
+        configPage.clearNameField();
+        configPage.setLaunchTypeInContext();
+        configPage.submit();
+        verifPageModal.switchToVerificationPageIframe();
+        Selenide.sleep(5000);
+        softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
+        refreshBrowser();
+    }
 
-//!!!       @Test(dataProvider = "config_fullname", dataProviderClass = ConfigurationPage.class) (groups = { "redirectLaunch" })
-    public void UserCannotSubmitWrongNameValue(String nameValue){
+    @Test(dataProvider = "config_fullname", dataProviderClass = ConfigurationPage.class)
+    public void UserCanSubmitWrongNameValueRedirect(String nameValue){
+
         configPage.setWrongName(nameValue);
         configPage.setLanguage();
         configPage.setCountry();
@@ -63,8 +47,8 @@ public class ConfigurationTest extends VeriffBaseTest{
         configPage.setLaunchTypeRedirect();
         configPage.submit();
         Selenide.sleep(5000);
-        softAssert.assertFalse(verifPage.getVerifHeader().isDisplayed());
-        softAssert.assertAll();
+        softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
+        openBaseUrl();
     }
 
     @Test
@@ -75,9 +59,10 @@ public class ConfigurationTest extends VeriffBaseTest{
         configPage.setLaunchTypeInContext();
         configPage.submit();
         verifPageModal.switchToVerificationPageIframe();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
         softAssert.assertAll();
+        refreshBrowser();
     }
 
     @Test
@@ -87,9 +72,10 @@ public class ConfigurationTest extends VeriffBaseTest{
         configPage.setLaunchTypeInContext();
         configPage.submit();
         verifPageModal.switchToVerificationPageIframe();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
         softAssert.assertAll();
+        refreshBrowser();
     }
 
     @Test
@@ -99,9 +85,10 @@ public class ConfigurationTest extends VeriffBaseTest{
         configPage.setLaunchTypeInContext();
         configPage.submit();
         verifPageModal.switchToVerificationPageIframe();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
         softAssert.assertAll();
+        refreshBrowser();
     }
 
     @Test
@@ -111,79 +98,86 @@ public class ConfigurationTest extends VeriffBaseTest{
         configPage.setLaunchTypeInContext();
         configPage.submit();
         verifPageModal.switchToVerificationPageIframe();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
         softAssert.assertAll();
+        refreshBrowser();
     }
 
     @Test
-    public void UserGoesBackFromInContext(){
+    public void UserUndoesVerifInContext(){
 
         configPage.setBasicData();
         configPage.setDocumentType(1);
         configPage.setLaunchTypeInContext();
         configPage.submit();
         verifPageModal.switchToVerificationPageIframe();
-        Selenide.sleep(5000);
         verifPageModal.getVerifHeader().waitUntil(Condition.visible, 5000);
         verifPageModal.closeVerificationPage();
         verifPageModal.confirmExit();
         Selenide.sleep(5000);
-        softAssert.assertFalse(verifPageModal.getFrame().isDisplayed());
         softAssert.assertFalse(verifPageModal.getVerifHeader().isDisplayed());
         softAssert.assertAll();
+        refreshBrowser();
     }
 
- /*   @Test (groups = { "redirectLaunch" })
+    @Test
     public void UserSubmitsWithPassportAndRedirect(){
 
         configPage.setBasicData();
         configPage.setDocumentType(1);
         configPage.setLaunchTypeRedirect();
         configPage.submit();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
+        openBaseUrl();
+        Selenide.sleep(5000);
         softAssert.assertAll();
-    } */
+    }
 
-/*    @Test (groups = { "redirectLaunch" })
+    @Test
     public void UserSubmitsWithIdCardAndRedirect(){
 
         configPage.setBasicData();
         configPage.setDocumentType(2);
         configPage.setLaunchTypeRedirect();
         configPage.submit();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
+        openBaseUrl();
+        //Selenide.sleep(5000);
         softAssert.assertAll();
-    } */
+    }
 
- /*   @Test (groups = { "redirectLaunch" })
+    @Test
     public void UserSubmitsWithResidenceAndRedirect(){
 
         configPage.setBasicData();
         configPage.setDocumentType(3);
         configPage.setLaunchTypeRedirect();
         configPage.submit();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
         softAssert.assertAll();
-    } */
+        openBaseUrl();
+    }
 
- /*   @Test (groups = { "redirectLaunch" })
+    @Test
     public void UserSubmitsWithLicenseAndRedirect(){
 
         configPage.setBasicData();
         configPage.setDocumentType(4);
         configPage.setLaunchTypeRedirect();
         configPage.submit();
-        Selenide.sleep(5000);
+        verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(verifPage.getVerifHeader().isDisplayed());
+        openBaseUrl();
+        Selenide.sleep(5000);
         softAssert.assertAll();
-    } */
+    }
 
- /*   @Test (groups = { "redirectLaunch" })
-    public void UserGoesBackFromRedirect(){
+    @Test
+    public void UserUndoesVerifRedirect(){
 
         configPage.setBasicData();
         configPage.setDocumentType(4);
@@ -192,9 +186,11 @@ public class ConfigurationTest extends VeriffBaseTest{
         verifPage.getVerifHeader().waitUntil(Condition.visible, 5000);
         verifPage.closeVerificationPage();
         verifPage.confirmExit();
-        Selenide.sleep(5000);
+        configPage.getTitleHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertTrue(configPage.getTitleHeader().isDisplayed());
+        openBaseUrl();
+        configPage.getTitleHeader().waitUntil(Condition.visible, 5000);
         softAssert.assertAll();
-    } */
+    }
 
 }
